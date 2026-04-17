@@ -1,26 +1,79 @@
 @import "tailwindcss";
 
+/* Design System CSS Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Brand Palette (in hex for easier reference) */
+  --color-background: #001524;
+  --color-foreground: #FFECD1;
+  --color-primary: #FF7D00;
+  --color-primary-foreground: #001524;
+  --color-surface: #78290F;
+  --color-muted: #78290F;
+  --color-border: #FF7D00;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Neutral Scale */
+  --color-text-primary: #FFECD1;
+  --color-text-secondary: #C8B496;
+  --color-text-tertiary: #968264;
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme inline {
+  --colors: {
+    background: rgb(0 21 36 / <alpha-value>);
+    foreground: rgb(255 236 209 / <alpha-value>);
+    primary: rgb(255 125 0 / <alpha-value>);
+    primary-foreground: rgb(0 21 36 / <alpha-value>);
+    surface: rgb(120 41 15 / <alpha-value>);
+    muted: rgb(120 41 15 / <alpha-value>);
+    border: rgb(255 125 0 / <alpha-value>);
+    text: {
+      primary: rgb(255 236 209 / <alpha-value>);
+      secondary: rgb(200 180 150 / <alpha-value>);
+      tertiary: rgb(150 130 100 / <alpha-value>);
+    };
+  };
+
+  --font-family: {
+    sans: var(--font-sans);
+    mono: var(--font-mono);
+  };
 }
 
+/* Base Styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(0 21 36);
+  color: rgb(255 236 209);
+  font-family: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Smooth Scroll for Intro Skip Button */
+a,
+button {
+  transition: color 0.2s, background-color 0.2s;
+}
+
+/* Utility Classes for Common Patterns */
+.text-gradient {
+  background: linear-gradient(to right, rgb(255 125 0), rgb(255 125 0 / 0.5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  backdrop-filter: blur(12px);
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.glow-primary {
+  filter: drop-shadow(0 0 20px rgba(255, 125, 0, 0.3)) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
 }
