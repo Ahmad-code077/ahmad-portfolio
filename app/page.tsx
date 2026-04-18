@@ -1,3 +1,5 @@
+import { Header } from '@/components/ui/Header';
+import { Footer } from '@/components/ui/Footer';
 import { IntroAnimation } from '@/components/sections/IntroAnimation';
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
@@ -8,14 +10,18 @@ import { Contact } from '@/components/sections/Contact';
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen bg-background text-foreground">
-      <IntroAnimation />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-    </main>
+    <>
+      <Header />
+      <main className="w-full min-h-screen bg-background text-foreground">
+        <IntroAnimation />
+        <Hero />
+        <About />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Contact />
+      </main>
+      <Footer />
+    </>
   );
 }
