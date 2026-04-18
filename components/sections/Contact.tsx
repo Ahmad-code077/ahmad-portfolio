@@ -19,11 +19,11 @@ export const Contact: React.FC = () => {
                 {/* Heading */}
                 <div>
                     <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                        Let's Work Together
+                        Let&apos;s Work Together
                     </h2>
                     <p className="text-text-secondary text-lg md:text-xl">
                         Have a project in mind? Want to discuss web development, backend systems, or AI-driven solutions?
-                        I'd love to connect.
+                        I&apos;d love to connect.
                     </p>
                 </div>
 

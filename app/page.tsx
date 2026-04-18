@@ -1,6 +1,6 @@
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
-import { IntroAnimation } from '@/components/sections/IntroAnimation';
+import { ScrollJourney } from '@/components/ScrollJourney';
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { Skills } from '@/components/sections/Skills';
@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="w-full min-h-screen bg-background text-foreground">
-        <IntroAnimation />
+      <main className="w-full min-h-screen bg-background text-foreground relative">
+        <ScrollJourney />
         <Hero />
         <About />
         <Skills />

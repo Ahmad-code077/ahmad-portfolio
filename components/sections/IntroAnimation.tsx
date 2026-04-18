@@ -6,10 +6,8 @@ import { Button } from '@/components/ui/Button';
 
 export const IntroAnimation: React.FC = () => {
     const [isFinished, setIsFinished] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(true);
 
     useEffect(() => {
-        if (!isAnimating) return;
 
         const runAnimation = async () => {
             await laptopOpenAnimation();
@@ -17,7 +15,7 @@ export const IntroAnimation: React.FC = () => {
         };
 
         runAnimation();
-    }, [isAnimating]);
+    }, []);
 
     const handleSkip = () => {
         setIsFinished(true);
@@ -56,7 +54,7 @@ export const IntroAnimation: React.FC = () => {
                     {/* Screen */}
                     <div
                         id="intro-screen"
-                        className="absolute inset-0 top-16 bg-gradient-to-br from-primary/20 to-primary/10 border-2 border-primary rounded-xl backdrop-blur-sm flex items-center justify-center"
+                        className="absolute inset-0 top-16 bg-linear-to-br from-primary/20 to-primary/10 border-2 border-primary rounded-xl backdrop-blur-sm flex items-center justify-center"
                     >
                         {/* Content that appears */}
                         <div

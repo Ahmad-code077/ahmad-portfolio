@@ -1,11 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { setupFadeInUp } from '@/lib/animations';
 import { Section } from '@/components/ui/Section';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const About: React.FC = () => {
-    const contentRef = React.useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cleanup = setupFadeInUp(contentRef.current);
@@ -14,10 +18,16 @@ export const About: React.FC = () => {
 
     return (
         <Section id="about" title="About Me" bgColor="surface">
+            {/* Anchor point for scroll journey start */}
+            <div id="anchor-about-start" data-anchor="journey-start" className="absolute h-0 w-0 -z-10" />
+
             <div className="grid md:grid-cols-2 gap-12 items-center" ref={contentRef}>
-                {/* Avatar Placeholder */}
+                {/* Avatar Placeholder - This will be the moving element target */}
                 <div className="flex justify-center md:justify-start">
-                    <div className="w-48 h-48 md:w-56 md:h-56 bg-linear-to-br from-primary/20 to-primary/5 border-2 border-primary rounded-2xl flex items-center justify-center shrink-0">
+                    <div
+                        id="anchor-about-avatar"
+                        className="w-48 h-48 md:w-56 md:h-56 bg-linear-to-br from-primary/20 to-primary/5 border-2 border-primary rounded-2xl flex items-center justify-center shrink-0"
+                    >
                         <span className="text-6xl md:text-7xl">👨‍💻</span>
                     </div>
                 </div>
@@ -49,6 +59,9 @@ export const About: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Anchor point for scroll journey end */}
+            <div id="anchor-about-end" data-anchor="journey-mid" className="absolute h-0 w-0 -z-10" />
         </Section>
     );
 };
