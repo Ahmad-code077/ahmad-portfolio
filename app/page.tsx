@@ -1,6 +1,6 @@
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
-import { ScrollJourney } from '@/components/ScrollJourney';
+import { ScrollJourneyWrapper } from '@/components/ScrollJourneyWrapper';
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { Skills } from '@/components/sections/Skills';
@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Header />
       <main className="w-full min-h-screen bg-background text-foreground relative">
-        <ScrollJourney />
+        <ScrollJourneyWrapper />
         <Hero />
         <About />
         <Skills />

@@ -66,12 +66,14 @@ export const Hero: React.FC = () => {
             ref={containerRef}
             id="hero"
             className="relative w-full h-screen flex items-center justify-center px-6 md:px-8 bg-background overflow-hidden"
+            suppressHydrationWarning
         >
             <div className="w-full max-w-4xl text-center space-y-8">
                 {/* Main Heading with SplitText Animation */}
                 <h1
                     ref={headingRef}
                     className="text-6xl sm:text-7xl md:text-8xl font-bold leading-tight tracking-tight text-foreground"
+                    suppressHydrationWarning
                 >
                     Building Production-Grade Systems
                 </h1>

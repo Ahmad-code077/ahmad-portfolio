@@ -228,6 +228,7 @@ export const ScrollJourney: React.FC = () => {
             style={{
                 perspective: '1200px',
             }}
+            suppressHydrationWarning
         >
             {/* SVG Path Visualization - Shows the guided tour route */}
             <svg
@@ -237,6 +238,7 @@ export const ScrollJourney: React.FC = () => {
                     filter: 'drop-shadow(0 0 15px rgba(255, 125, 0, 0.15))',
                     overflow: 'visible',
                 }}
+                suppressHydrationWarning
             >
                 {/* Main path */}
                 <path
@@ -275,6 +277,7 @@ export const ScrollJourney: React.FC = () => {
                     `,
                     willChange: 'transform',
                 }}
+                suppressHydrationWarning
             >
                 {/* Inner glow - pulsing effect */}
                 <div
