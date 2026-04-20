@@ -1,49 +1,51 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { setupFadeInUp } from '@/lib/animations';
 import { Section } from '@/components/ui/Section';
+import { BentoGallery } from '@/components/ui/BentoGallery';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const galleryImages = [
+    { src: '/test.jpeg', alt: 'Code and Technology' },
+    { src: '/test.jpeg', alt: 'Development' },
+    { src: '/test.jpeg', alt: 'Engineering' },
+    { src: '/test.jpeg', alt: 'Innovation' },
+    { src: '/test.jpeg', alt: 'Problem Solving' },
+    { src: '/test.jpeg', alt: 'Full Stack' },
+    { src: '/test.jpeg', alt: 'Backend Systems' },
+    { src: '/test.jpeg', alt: 'AI & ML' },
+];
+
 export const About: React.FC = () => {
-    const contentRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const cleanup = setupFadeInUp(contentRef.current);
-        return cleanup;
-    }, []);
-
     return (
-        <Section id="about" title="About Me" bgColor="surface">
-            {/* Anchor point for scroll journey start */}
-            <div id="anchor-about-start" data-anchor="journey-start" className="absolute h-0 w-0 -z-10" />
+        <div id="about" title="About Me" bgColor="surface">
+            {/* Bento Gallery */}
+            <BentoGallery images={galleryImages} />
 
-            <div className="grid md:grid-cols-2 gap-12 items-center" ref={contentRef}>
-                {/* Avatar Placeholder - This will be the moving element target */}
-                <div className="flex justify-center md:justify-start">
-                    <div
-                        id="anchor-about-avatar"
-                        className="w-48 h-48 md:w-56 md:h-56 bg-linear-to-br from-primary/20 to-primary/5 border-2 border-primary rounded-2xl flex items-center justify-center shrink-0"
-                    >
-                        <span className="text-6xl md:text-7xl">👨‍💻</span>
-                    </div>
-                </div>
-
-                {/* Bio */}
-                <div className="space-y-6">
-                    <p className="text-lg text-text-secondary leading-relaxed">
+            {/* About Content Section */}
+            <div className="w-full py-20 px-4 md:px-20">
+                <div className="max-w-4xl mx-auto space-y-6">
+                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
                         I&apos;m Muhammad Ahmad, a Full Stack Engineer with 2+ years of hands-on experience building production-grade applications. I specialize in creating scalable, real-time platforms that solve real problems.
                     </p>
 
-                    <p className="text-lg text-text-secondary leading-relaxed">
+                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
                         From building social platforms with real-time chat and payments (Xissed, SurgeryTrust) to architecting healthcare solutions, I bring technical discipline and problem-solving to every project. I&apos;m passionate about clean code, performance optimization, and creating systems that scale.
                     </p>
 
-                    <p className="text-lg text-text-secondary leading-relaxed">
+                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
                         Currently at <span className="text-primary font-semibold">Algotix.ai</span>, building AI pipelines and RAG systems. Always learning, always shipping.
+                    </p>
+
+                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+                        I believe in engineering with intention. Every feature matters. Every millisecond counts. Every line of code should tell a story. My approach combines theoretical knowledge with pragmatic solutions, always keeping the user and system health in mind.
+                    </p>
+
+                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+                        Beyond code, I enjoy exploring new technologies, contributing to open-source projects, and mentoring junior developers. I&apos;m always open to interesting projects and conversations about building the future of technology.
                     </p>
 
                     {/* Stats */}
@@ -59,9 +61,6 @@ export const About: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Anchor point for scroll journey end */}
-            <div id="anchor-about-end" data-anchor="journey-mid" className="absolute h-0 w-0 -z-10" />
-        </Section>
+        </div>
     );
 };

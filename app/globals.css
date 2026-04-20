@@ -1,63 +1,90 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Design System CSS Variables */
 :root {
   /* Brand Palette (in hex for easier reference) */
   --color-background: #001524;
-  --color-foreground: #FFECD1;
-  --color-primary: #FF7D00;
+  --color-foreground: #ffecd1;
+  --color-primary: #ff7d00;
   --color-primary-foreground: #001524;
-  --color-surface: #78290F;
-  --color-muted: #78290F;
-  --color-border: #FF7D00;
+  --color-surface: #78290f;
+  --color-muted: #78290f;
+  --color-border: #ff7d00;
 
   /* Neutral Scale */
-  --color-text-primary: #FFECD1;
-  --color-text-secondary: #C8B496;
+  --color-text-primary: #ffecd1;
+  --color-text-secondary: #c8b496;
   --color-text-tertiary: #968264;
 
   /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Strict Layout System */
+  --container-max-width: 1200px;
+  --container-padding: 1.5rem;
+  --section-padding-y: 5rem;
+  --section-padding-y-mobile: 3rem;
 }
 
-@theme inline {
-  --colors: {
-    background: rgb(0 21 36 / <alpha-value>);
-    foreground: rgb(255 236 209 / <alpha-value>);
-    primary: rgb(255 125 0 / <alpha-value>);
-    primary-foreground: rgb(0 21 36 / <alpha-value>);
-    surface: rgb(120 41 15 / <alpha-value>);
-    muted: rgb(120 41 15 / <alpha-value>);
-    border: rgb(255 125 0 / <alpha-value>);
-    text: {
-      primary: rgb(255 236 209 / <alpha-value>);
-      secondary: rgb(200 180 150 / <alpha-value>);
-      tertiary: rgb(150 130 100 / <alpha-value>);
-    };
-  };
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 1rem;
+    --section-padding-y: 3rem;
+  }
+}
 
-  --font-family: {
-    sans: var(--font-sans);
-    mono: var(--font-mono);
-  };
+@theme {
+  --color-background: rgb(0 21 36);
+  --color-foreground: rgb(255 236 209);
+  --color-primary: rgb(255 125 0);
+  --color-primary-foreground: rgb(0 21 36);
+  --color-surface: rgb(120 41 15);
+  --color-muted: rgb(120 41 15);
+  --color-border: rgb(255 125 0);
+
+  --color-text-primary: rgb(255 236 209);
+  --color-text-secondary: rgb(200 180 150);
+  --color-text-tertiary: rgb(150 130 100);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 /* Base Styles */
-body {
-  background-color: rgb(0 21 36);
-  color: rgb(255 236 209);
-  font-family: var(--font-sans);
-}
 
 html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: rgb(0 21 36);
+  color: rgb(255 236 209);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
 /* Smooth Scroll for Intro Skip Button */
 a,
 button {
-  transition: color 0.2s, background-color 0.2s;
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+/* Container System */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  width: 100%;
+}
+
+/* Section Sizing */
+section {
+  width: 100%;
 }
 
 /* Utility Classes for Common Patterns */
@@ -75,5 +102,119 @@ button {
 }
 
 .glow-primary {
-  filter: drop-shadow(0 0 20px rgba(255, 125, 0, 0.3)) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 0 20px rgba(255, 125, 0, 0.3))
+    drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Animation Utilities */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.glass-effect {
+  backdrop-filter: blur(12px);
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.glow-primary {
+  filter: drop-shadow(0 0 20px rgba(255, 125, 0, 0.3))
+    drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+/* Bento Gallery Styles */
+.gallery-wrap {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery__item {
+  background-position: 50% 50%;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+}
+
+.gallery__item img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery--bento {
+  display: grid;
+  gap: 1vh;
+  grid-template-columns: repeat(3, 32.5vw);
+  grid-template-rows: repeat(4, 23vh);
+  justify-content: center;
+  align-content: center;
+}
+
+.gallery--final.gallery--bento {
+  grid-template-columns: repeat(3, 100vw);
+  grid-template-rows: repeat(4, 49.5vh);
+  gap: 1vh;
+}
+
+.gallery--bento .gallery__item:nth-child(1) {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.gallery--bento .gallery__item:nth-child(2) {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.gallery--bento .gallery__item:nth-child(3) {
+  grid-area: 2 / 2 / 4 / 3;
+}
+
+.gallery--bento .gallery__item:nth-child(4) {
+  grid-area: 1 / 3 / 3 / 4;
+}
+
+.gallery--bento .gallery__item:nth-child(5) {
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.gallery--bento .gallery__item:nth-child(6) {
+  grid-area: 3 / 3 / 5 / 4;
+}
+
+.gallery--bento .gallery__item:nth-child(7) {
+  grid-area: 4 / 1 / 5 / 2;
+}
+
+.gallery--bento .gallery__item:nth-child(8) {
+  grid-area: 4 / 2 / 5 / 3;
 }
