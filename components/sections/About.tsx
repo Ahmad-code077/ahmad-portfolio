@@ -3,7 +3,6 @@
 import React from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Section } from '@/components/ui/Section';
 import { BentoGallery } from '@/components/ui/BentoGallery';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +15,6 @@ const galleryImages = [
     { src: '/test.jpeg', alt: 'Problem Solving' },
     { src: '/test.jpeg', alt: 'Full Stack' },
     { src: '/test.jpeg', alt: 'Backend Systems' },
-    { src: '/test.jpeg', alt: 'AI & ML' },
 ];
 
 export const About: React.FC = () => {
