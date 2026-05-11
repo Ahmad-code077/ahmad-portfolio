@@ -21,7 +21,7 @@ const galleryImages = [
 
 export const About: React.FC = () => {
     return (
-        <div id="about" title="About Me" bgColor="surface">
+        <div id="about" title="About Me" >
             {/* Bento Gallery */}
             <BentoGallery images={galleryImages} />
 
