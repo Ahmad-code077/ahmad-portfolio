@@ -22,74 +22,65 @@ export const BentoGallery: React.FC<BentoGalleryProps> = ({ images }) => {
     const flipCtxRef = useRef<gsap.Context | null>(null);
 
     useEffect(() => {
-        // Wait for grid layout to fully stabilize before GSAP captures state
-        const frameId = requestAnimationFrame(() => {
-            const timeoutId = setTimeout(() => {
-                const createTween = () => {
-                    const galleryElement = galleryRef.current;
-                    if (!galleryElement) return;
+        const getNavbarHeight = () =>
+            window.innerWidth >= 768 ? 81 : 64;
 
-                    const parentElement = galleryElement.parentNode as HTMLElement;
-                    const galleryItems = galleryElement.querySelectorAll('.gallery__item');
+        const createTween = () => {
+            const galleryElement = galleryRef.current;
+            if (!galleryElement) return;
 
-                    // Clean up previous context
-                    flipCtxRef.current?.revert();
-                    galleryElement.classList.remove('gallery--final');
+            const parentElement = galleryElement.parentNode as HTMLElement;
+            const galleryItems =
+                galleryElement.querySelectorAll('.gallery__item');
 
-                    flipCtxRef.current = gsap.context(() => {
-                        // Capture final state
-                        galleryElement.classList.add('gallery--final');
-                        const flipState = Flip.getState(galleryItems);
-                        galleryElement.classList.remove('gallery--final');
+            flipCtxRef.current?.revert();
+            galleryElement.classList.remove('gallery--final');
 
-                        // Animate from bento to fullscreen
-                        const flip = Flip.to(flipState, {
-                            simple: true,
-                            ease: 'expoScale(1, 5)'
-                        });
+            flipCtxRef.current = gsap.context(() => {
+                // Capture final layout
+                galleryElement.classList.add('gallery--final');
+                const state = Flip.getState(galleryItems);
+                galleryElement.classList.remove('gallery--final');
 
-                        // Create scroll timeline
-                        const tl = gsap.timeline({
-                            scrollTrigger: {
-                                trigger: galleryElement,
-                                start: 'center center',
-                                end: '+=100%',
-                                scrub: true,
-                                pin: parentElement
-                            }
-                        });
+                const flip = Flip.to(state, {
+                    simple: true,
+                    ease: 'expoScale(1, 5)'
+                });
 
-                        tl.add(flip);
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: galleryElement,
+                        start: () => `top top+=${getNavbarHeight()}`,
+                        end: '+=100%',
+                        scrub: true,
+                        pin: parentElement,
+                        invalidateOnRefresh: true
+                    }
+                });
 
-                        return () => gsap.set(galleryItems, { clearProps: 'all' });
-                    });
-                };
-
-                createTween();
-
-                // Handle window resize
-                const handleResize = () => createTween();
-                window.addEventListener('resize', handleResize);
+                tl.add(flip);
 
                 return () => {
-                    window.removeEventListener('resize', handleResize);
-                    flipCtxRef.current?.revert();
+                    gsap.set(galleryItems, { clearProps: 'all' });
                 };
-            }, 500);
+            });
+        };
 
-            return () => clearTimeout(timeoutId);
-        });
+        createTween();
 
-        return () => cancelAnimationFrame(frameId);
+        window.addEventListener('resize', createTween);
+
+        return () => {
+            window.removeEventListener('resize', createTween);
+            flipCtxRef.current?.revert();
+        };
     }, []);
 
     return (
-        <div className="gallery-wrap w-full h-screen flex items-center justify-center overflow-hidden" suppressHydrationWarning>
+        <div className="gallery-wrap w-full flex items-center justify-center overflow-hidden">
             <div
-                id="gallery-bento"
                 ref={galleryRef}
                 className="gallery gallery--bento relative w-full h-full"
-                suppressHydrationWarning
             >
                 {images.map((image, index) => (
                     <div
@@ -102,7 +93,9 @@ export const BentoGallery: React.FC<BentoGalleryProps> = ({ images }) => {
                             fill
                             className="object-cover"
                             priority={index < 2}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            sizes="(max-width: 768px) 100vw,
+                     (max-width: 1200px) 50vw,
+                     33vw"
                         />
                     </div>
                 ))}
