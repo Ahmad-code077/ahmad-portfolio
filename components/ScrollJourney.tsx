@@ -29,7 +29,6 @@ export const ScrollJourney: React.FC = () => {
             // Additional layout stabilization delay
             await new Promise((resolve) => setTimeout(resolve, 300));
 
-            updateJourneyPath();
         };
 
         initializeJourney();
@@ -194,16 +193,15 @@ export const ScrollJourney: React.FC = () => {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             // Curviness factor (2-3 for organic feel)
-            const curviness = 2.5;
             const controlDistance = distance * 0.4;
 
             // First control point (from previous segment)
             let cp1x = prev.x + controlDistance;
-            let cp1y = prev.y + dy * 0.3;
+            const cp1y = prev.y + dy * 0.3;
 
             // Second control point (to next segment)
             let cp2x = curr.x - controlDistance;
-            let cp2y = curr.y - dy * 0.3;
+            const cp2y = curr.y - dy * 0.3;
 
             // Add slight jitter for zig-zag motion (creates guided tour feel)
             if (i % 2 === 0) {

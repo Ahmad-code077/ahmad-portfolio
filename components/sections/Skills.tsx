@@ -1,121 +1,96 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useRef } from 'react';
 import { skillsByCategory } from '@/lib/data';
-import { SkillCard } from '@/components/ui/SkillCard';
 import { Section } from '@/components/ui/Section';
-
-gsap.registerPlugin(ScrollTrigger);
+import { SkillTreeWrapper } from '@/components/SkillTreeWrapper';
 
 export const Skills: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const categoryRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    const categories = skillsByCategory();
-
-    useEffect(() => {
-        if (!containerRef.current) return;
-
-        // Animate each category with stagger
-        if (categoryRefs.current.length === 0) return;
-
-        gsap.set(categoryRefs.current, { opacity: 0, y: 30 });
-
-        gsap.to(categoryRefs.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            stagger: 0.15,
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: 'top 80%',
-                once: true,
-                invalidateOnRefresh: true,
-            },
-        });
-
-        return () => {
-            gsap.set(categoryRefs.current, { opacity: 1, y: 0 });
-        };
-    }, [categories]);
 
     return (
         <Section
             id="skills"
-            title="Tech Stack"
-            subtitle="Production tools and frameworks I use daily"
+            title="Skills Tree"
+            subtitle="Interactive skill hierarchy with real-time exploration"
             bgColor="background"
         >
-            {/* Anchor point for scroll journey entrance */}
-            <div id="anchor-techstack-start" data-anchor="journey-end" className="absolute h-0 w-0 -z-10" />
+            <div ref={containerRef} className="space-y-20">
+                {/* Interactive React Flow Skill Tree */}
+                <div className="w-full flex items-center justify-center py-8">
+                    <div className="w-full max-w-6xl px-4">
+                        <SkillTreeWrapper />
+                        <p className="text-center text-text-secondary mt-6 text-sm md:text-base">
+                            Drag nodes to explore • Scroll to zoom • Pan to navigate the full hierarchy
+                        </p>
+                    </div>
+                </div>
 
-            <div className="space-y-16 md:space-y-20" ref={containerRef}>
-                {categories.map((category, categoryIndex) => (
-                    <div
-                        key={category.category}
-                        ref={(el) => {
-                            if (el) categoryRefs.current[categoryIndex] = el;
-                        }}
-                        className="space-y-6"
-                    >
-                        {/* Category Header with Visual Indicator */}
-                        <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                                <div className="h-1 w-12 bg-linear-to-r from-primary to-transparent rounded-full" />
-                                <h3 className="text-2xl md:text-3xl font-bold text-foreground">
-                                    {category.category}
-                                </h3>
-                            </div>
-                            <p className="text-text-secondary text-sm ml-0">
-                                {category.skills.length} proficiencies
-                            </p>
-                        </div>
-
-                        {/* Skills Grid with Cards */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                            {category.skills.map((skill) => (
-                                <SkillCard
-                                    key={skill.id}
-                                    name={skill.name}
-                                    level={skill.level}
-                                    yearsOfExperience={skill.yearsOfExperience}
-                                />
+                {/* Skill Statistics */}
+                <div className="w-full flex items-center justify-center py-20">
+                    <div className="text-center max-w-4xl px-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
+                            Technical Proficiency Overview
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {skillsByCategory().map((category) => (
+                                <div
+                                    key={category.category}
+                                    className="p-6 rounded-lg border border-border/30 bg-surface/50"
+                                >
+                                    <h3 className="text-xl font-bold text-primary mb-3">
+                                        {category.category}
+                                    </h3>
+                                    <div className="space-y-2 text-left">
+                                        <p className="text-text-secondary text-sm">
+                                            <span className="font-semibold">{category.skills.length}</span> skills
+                                        </p>
+                                        <p className="text-text-secondary text-sm">
+                                            <span className="font-semibold">
+                                                {category.skills.filter((s) => s.level === 'Expert').length}
+                                            </span>{' '}
+                                            Expert
+                                        </p>
+                                        <p className="text-text-secondary text-sm">
+                                            <span className="font-semibold">
+                                                {category.skills.filter((s) => s.level === 'Advanced').length}
+                                            </span>{' '}
+                                            Advanced
+                                        </p>
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </div>
-                ))}
+                </div>
 
-                {/* Summary Stats */}
-                <div className="mt-12 pt-12 border-t border-border/30 grid grid-cols-3 gap-6 md:gap-8">
-                    <div className="text-center">
-                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                            {categories.reduce((sum, cat) => sum + cat.skills.length, 0)}
+                {/* Legend */}
+                <div className="w-full flex items-center justify-center py-10">
+                    <div className="text-center max-w-2xl px-4">
+                        <h3 className="text-lg font-bold text-foreground mb-6">Understanding the Tree</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="p-4 rounded-lg bg-primary/10 border border-primary/30">
+                                <p className="text-sm text-text-secondary mb-2">Larger Nodes</p>
+                                <p className="text-xs text-text-tertiary">
+                                    Root categories and primary skill domains
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-lg bg-orange-500/10 border border-orange-500/30">
+                                <p className="text-sm text-text-secondary mb-2">Medium Nodes</p>
+                                <p className="text-xs text-text-tertiary">
+                                    Specialized skill areas and subtopic groups
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-lg bg-orange-400/10 border border-orange-400/30">
+                                <p className="text-sm text-text-secondary mb-2">Neon Flow</p>
+                                <p className="text-xs text-text-tertiary">
+                                    Animated edges showing skill relationships
+                                </p>
+                            </div>
                         </div>
-                        <p className="text-text-secondary text-sm">Total Skills</p>
-                    </div>
-                    <div className="text-center">
-                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">4</div>
-                        <p className="text-text-secondary text-sm">Categories</p>
-                    </div>
-                    <div className="text-center">
-                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                            {Math.max(
-                                ...categories.flatMap((cat) =>
-                                    cat.skills.map((s) => s.yearsOfExperience)
-                                )
-                            )}
-                            +
-                        </div>
-                        <p className="text-text-secondary text-sm">Years Max</p>
                     </div>
                 </div>
             </div>
-
-            {/* Anchor point for scroll journey end */}
-            <div id="anchor-techstack-end" data-anchor="journey-final" className="absolute h-0 w-0 -z-10" />
         </Section>
     );
 };

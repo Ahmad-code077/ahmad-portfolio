@@ -265,3 +265,53 @@ section {
     stroke-width: 1.5;
   }
 }
+
+/* React Flow Skill Tree - Clean Portfolio UI */
+.react-flow {
+  background: transparent !important;
+}
+
+.react-flow__nodes {
+  animation: fadeInUp 1s ease-out;
+}
+
+.react-flow__edges {
+  animation: fadeIn 1.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Hide all interactive elements */
+.react-flow__controls,
+.react-flow__minimap,
+.react-flow__panel,
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* Clean handle styling */
+.react-flow__handle {
+  background: transparent !important;
+  border: none !important;
+  width: 6px !important;
+  height: 6px !important;
+  opacity: 0 !important;
+}
