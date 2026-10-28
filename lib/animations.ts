@@ -6,6 +6,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { prefersReducedMotion } from "./gsap";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -15,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
  * Proper cleanup to prevent memory leaks
  */
 export const setupFadeInUp = (element: HTMLElement | null, delay: number = 0) => {
-    if (!element) return () => { };
+    if (!element || prefersReducedMotion()) return () => { };
 
     // Set initial state
     gsap.set(element, { opacity: 0, y: 40 });
@@ -53,7 +54,7 @@ export const setupStaggerChildren = (
     itemSelector: string,
     staggerDelay: number = 0.1
 ) => {
-    if (!container) return () => { };
+    if (!container || prefersReducedMotion()) return () => { };
 
     const items = container.querySelectorAll(itemSelector);
     if (items.length === 0) return () => { };
@@ -83,135 +84,6 @@ export const setupStaggerChildren = (
             if (trigger.trigger === container) trigger.kill();
         });
     };
-};
-
-/**
- * Laptop key opening animation for intro
- * Creates a cinematic 3-5 second animation
- */
-export const laptopOpenAnimation = (): Promise<void> => {
-    return new Promise((resolve) => {
-        const timeline = gsap.timeline({
-            onComplete: resolve,
-        });
-
-        // Key press animation
-        const keyElement = document.getElementById("intro-key");
-        const screenElement = document.getElementById("intro-screen");
-
-        if (keyElement && screenElement) {
-            timeline
-                // Key presses (cascade effect)
-                .to(
-                    keyElement,
-                    {
-                        y: 4,
-                        duration: 0.1,
-                        repeat: 3,
-                        yoyo: true,
-                    },
-                    0
-                )
-                // Screen glow and reveal
-                .to(
-                    screenElement,
-                    {
-                        opacity: 0,
-                        duration: 0,
-                    },
-                    0
-                )
-                .to(
-                    screenElement,
-                    {
-                        opacity: 1,
-                        duration: 0.6,
-                    },
-                    0.5
-                )
-                // Content fade in
-                .to(
-                    "#intro-content",
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                    },
-                    1
-                );
-        }
-
-        // If elements don't exist, resolve immediately
-        if (!keyElement || !screenElement) {
-            resolve();
-        }
-    });
-};
-
-/**
- * Hover card lift animation
- * Used for projects and skill cards
- */
-export const setupCardHoverAnimation = (element: HTMLElement) => {
-    if (!element) return;
-
-    element.addEventListener("mouseenter", () => {
-        gsap.to(element, {
-            y: -8,
-            boxShadow: "0 20px 40px rgba(255, 125, 0, 0.15)",
-            duration: 0.3,
-            ease: "power2.out",
-        });
-    });
-
-    element.addEventListener("mouseleave", () => {
-        gsap.to(element, {
-            y: 0,
-            boxShadow: "var(--shadow-md)",
-            duration: 0.3,
-            ease: "power2.out",
-        });
-    });
-};
-
-/**
- * Text gradient animation
- * Animates gradient text on scroll
- */
-export const gradientTextAnimation = (element: HTMLElement) => {
-    if (!element) return;
-
-    return gsap.to(element, {
-        backgroundPosition: "200% center",
-        duration: 2,
-        repeat: -1,
-        ease: "linear",
-        yoyo: true,
-    });
-};
-
-/**
- * Number counter animation
- * For impact metrics
- */
-export const countUpAnimation = (
-    element: HTMLElement,
-    targetNumber: number,
-    duration: number = 2
-) => {
-    if (!element) return;
-
-    return gsap.to(element, {
-        textContent: targetNumber,
-        duration,
-        ease: "power1.inOut",
-        snap: { textContent: 1 },
-        onUpdate: function () {
-            if (element && this.targets()) {
-                element.textContent = Math.ceil(this.progress() * targetNumber).toString();
-            }
-        },
-    });
 };
 
 /**

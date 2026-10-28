@@ -1,11 +1,8 @@
 'use client';
 
-import React from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, useRef } from 'react';
+import { setupFadeInUp } from '@/lib/animations';
 import { BentoGallery } from '@/components/ui/BentoGallery';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const galleryImages = [
     { src: '/test.jpeg', alt: 'Code and Technology' },
@@ -17,46 +14,60 @@ const galleryImages = [
     { src: '/test.jpeg', alt: 'Backend Systems' },
 ];
 
+const facts = [
+    { label: 'Role', value: 'Backend & AI Engineer' },
+    { label: 'Focus', value: 'Real-time systems, RAG pipelines' },
+    { label: 'Currently', value: 'Algotix.ai' },
+    { label: 'Experience', value: '2+ years' },
+    { label: 'Shipped', value: '10+ live projects' },
+];
+
 export const About: React.FC = () => {
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const cleanup = setupFadeInUp(contentRef.current);
+        return cleanup;
+    }, []);
+
     return (
-        <div id="about" title="About Me" >
+        <div id="about" title="About Me">
             {/* Bento Gallery */}
             <BentoGallery images={galleryImages} />
 
-            {/* About Content Section */}
-            <div className="w-full py-20 px-4 md:px-20">
-                <div className="max-w-4xl mx-auto space-y-6">
-                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
-                        I&apos;m Muhammad Ahmad, a Full Stack Engineer with 2+ years of hands-on experience building production-grade applications. I specialize in creating scalable, real-time platforms that solve real problems.
-                    </p>
-
-                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
-                        From building social platforms with real-time chat and payments (Xissed, SurgeryTrust) to architecting healthcare solutions, I bring technical discipline and problem-solving to every project. I&apos;m passionate about clean code, performance optimization, and creating systems that scale.
-                    </p>
-
-                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
-                        Currently at <span className="text-primary font-semibold">Algotix.ai</span>, building AI pipelines and RAG systems. Always learning, always shipping.
-                    </p>
-
-                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
-                        I believe in engineering with intention. Every feature matters. Every millisecond counts. Every line of code should tell a story. My approach combines theoretical knowledge with pragmatic solutions, always keeping the user and system health in mind.
-                    </p>
-
-                    <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
-                        Beyond code, I enjoy exploring new technologies, contributing to open-source projects, and mentoring junior developers. I&apos;m always open to interesting projects and conversations about building the future of technology.
-                    </p>
-
-                    {/* Stats */}
-                    <div className="grid grid-cols-2 gap-4 pt-6">
-                        <div className="bg-background rounded-lg p-4 border border-border">
-                            <div className="text-3xl font-bold text-primary">2+</div>
-                            <p className="text-text-secondary text-sm mt-1">Years Experience</p>
-                        </div>
-                        <div className="bg-background rounded-lg p-4 border border-border">
-                            <div className="text-3xl font-bold text-primary">10+</div>
-                            <p className="text-text-secondary text-sm mt-1">Live Projects</p>
-                        </div>
+            {/* About Content */}
+            <div className="w-full py-20 px-6 md:px-8">
+                <div
+                    ref={contentRef}
+                    className="container max-w-5xl grid md:grid-cols-[1fr_260px] gap-10 md:gap-16"
+                >
+                    <div className="space-y-5 max-w-prose">
+                        <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+                            I&apos;m Muhammad Ahmad, a full-stack engineer with 2+ years building
+                            production systems — real-time chat, payments, and healthcare platforms
+                            like Xissed and SurgeryTrust.
+                        </p>
+                        <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+                            At <span className="text-primary font-semibold">Algotix.ai</span> I build
+                            AI pipelines and RAG systems. Before that: social platforms, booking
+                            flows, and the backend plumbing — queues, auth, schemas — that keeps them
+                            running under load.
+                        </p>
+                        <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+                            I care about systems that stay fast and correct after the demo ends:
+                            clean schemas, sane queues, and code a teammate can still read six months
+                            later.
+                        </p>
                     </div>
+
+                    <dl className="space-y-4 border-t md:border-t-0 md:border-l border-border/20 pt-6 md:pt-0 md:pl-8">
+                        {facts.map((fact) => (
+                            <div key={fact.label}>
+                                <dt className="font-mono text-xs text-text-tertiary">{fact.label}</dt>
+                                <dd className="text-foreground font-medium mt-0.5">{fact.value}</dd>
+                            </div>
+                        ))}
+                    </dl>
                 </div>
             </div>
         </div>

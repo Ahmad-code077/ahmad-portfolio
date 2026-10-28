@@ -20,7 +20,7 @@ export const isTouchDevice = (): boolean => {
     return (
         ('ontouchstart' in window) ||
         (navigator.maxTouchPoints > 0) ||
-        // @ts-ignore
+        // @ts-expect-error msMaxTouchPoints is a legacy IE/Edge property not in modern lib.dom types
         (navigator.msMaxTouchPoints > 0) ||
         (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
     );
