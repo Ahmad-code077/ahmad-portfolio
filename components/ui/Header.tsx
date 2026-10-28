@@ -115,7 +115,7 @@ export const Header: React.FC = () => {
 
     return (
         <>
-            <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur border-b border-border">
+            <header className="fixed top-0 inset-x-0 z-50 w-full bg-background/95 backdrop-blur border-b border-border">
                 <div className="container">
                     <div className="flex items-center justify-between h-16 md:h-20">
                         <button

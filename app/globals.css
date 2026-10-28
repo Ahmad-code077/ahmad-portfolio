@@ -59,6 +59,12 @@ body {
   font-family: var(--font-sans);
   line-height: 1.6;
   font-size: 1rem;
+  /* GSAP ScrollSmoother drives scroll from the real (hidden) document
+     scroll position. Chrome's scroll anchoring auto-adjusts that position
+     when content changes size above the fold (e.g. the hero terminal's
+     output growing) — ScrollSmoother reads that as real scroll input and
+     the whole page jumps. Disable it everywhere. */
+  overflow-anchor: none;
 }
 
 a,
@@ -208,4 +214,39 @@ section {
     animation: none;
     opacity: 0.6;
   }
+}
+
+/* Terminal cursor */
+.hero-term-cursor {
+  width: 0.55em;
+  height: 1.1em;
+  background: currentColor;
+  display: inline-block;
+  animation: hero-term-blink 1s step-end infinite;
+}
+
+@keyframes hero-term-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-term-cursor {
+    animation: none;
+  }
+}
+
+/* Terminal output area scrolls, but without showing scrollbar chrome */
+.hero-term-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hero-term-scroll::-webkit-scrollbar {
+  display: none;
 }

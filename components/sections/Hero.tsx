@@ -3,12 +3,13 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { HeroTerminal } from './HeroTerminal';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Scroll-driven zoom intro: a card of text scales up from the center until
- * its white fill floods the viewport, then fades to reveal About underneath.
+ * Scroll-driven zoom intro: a terminal window scales up from the center
+ * until it floods the viewport, then fades to reveal About underneath.
  * Only enhanced for JS + motion-ok visitors (see prefers-reduced-motion
  * branch below) — everyone else gets one normal, fully visible viewport.
  */
@@ -39,7 +40,7 @@ export const Hero: React.FC = () => {
                 },
             });
 
-            tl.to(floodRef.current, { scale: 42, duration: 1 }, 0)
+            tl.to(floodRef.current, { scale: 20, duration: 1 }, 0)
                 .to([textRef.current, cueRef.current], { opacity: 0, duration: 0.2 }, 0.08)
                 .to(floodRef.current, { opacity: 0, duration: 0.16 }, 0.84);
 
@@ -62,26 +63,20 @@ export const Hero: React.FC = () => {
         >
             <div
                 ref={stageRef}
-                className="hero-stage h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-full flex items-center justify-center overflow-hidden bg-background px-6"
+                className="hero-stage h-screen w-full flex items-center justify-center overflow-hidden bg-background px-4 sm:px-6"
             >
                 <div
                     ref={floodRef}
-                    className="hero-flood origin-center relative flex flex-col items-center gap-1 md:gap-2 rounded-[2rem] bg-white px-10 py-10 sm:px-14 sm:py-12 md:px-20 md:py-16 text-center"
+                    className="hero-flood origin-center relative w-[94%] sm:w-[88%] max-w-5xl rounded-xl bg-[#03070d] border border-primary/15 shadow-[0_0_80px_rgba(255,125,0,0.08)] overflow-hidden"
                 >
-                    <div ref={textRef} className="flex flex-col items-center gap-1 md:gap-2">
-                        <p className="font-mono text-base sm:text-lg md:text-2xl text-[#001524]/70">
-                            so I build
-                        </p>
-                        <p className="font-mono text-base sm:text-lg md:text-2xl text-[#001524]/70">
-                            backend systems
-                        </p>
-                        <h1 className="font-mono text-5xl sm:text-7xl md:text-9xl font-bold tracking-tight text-[#001524] leading-none py-1">
-                            Ahmad
-                        </h1>
-                        <p className="font-mono text-base sm:text-lg md:text-2xl text-[#001524]/70">
-                            built to hold under load.
-                        </p>
+                    <div className="flex items-center gap-2 px-4 py-3 border-b border-primary/10">
+                        <span className="w-2.5 h-2.5 rounded-full bg-primary/60" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-primary/35" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-primary/20" />
+                        <span className="ml-2 font-mono text-xs text-text-tertiary">ahmad@system — zsh</span>
                     </div>
+
+                    <HeroTerminal ref={textRef} />
                 </div>
 
                 <div
